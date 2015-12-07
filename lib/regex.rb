@@ -18,6 +18,8 @@ class Regex
     if char_matcher.matches?(test_string.slice(0))
       remove_head_chars(char_matcher, test_string)
       true
+    elsif char_matcher.modifier == '?'
+      true
     else
       false
     end
@@ -50,7 +52,7 @@ class Regex
         match_char = build_from_character_class
       end
 
-      modifier = @pattern_string.slice!(0) if @pattern_string.slice(0) == '+'
+      modifier = @pattern_string.slice!(0) if ['?', '+'].include?(@pattern_string.slice(0))
 
       output << Matcher.new(match_char, modifier)
     end
