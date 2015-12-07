@@ -11,4 +11,8 @@ class Matcher
 
     @match_char.include?(char)
   end
+
+  def match(char)
+    char if @match_char == '.' || @match_char.include?(char)
+  end
 end

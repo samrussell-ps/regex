@@ -3,12 +3,21 @@ require './lib/matcher'
 class Regex
   def initialize(pattern_string)
     @pattern_string = pattern_string.dup
+    @match = ''
   end
 
-  def matches?(string)
-    test_string = string.dup
-    char_matchers.all? do |char_matcher|
-      match_chars(char_matcher, test_string)
+  def matches?(test_string)
+    !match(test_string).nil?
+  end
+
+  def match(test_string)
+    match!(test_string.dup)
+  end
+
+  def match!(test_string)
+    @match = ''
+    if char_matchers.all? { |char_matcher| match_chars(char_matcher, test_string) }
+      @match
     end
   end
 
@@ -26,10 +35,10 @@ class Regex
   end
 
   def remove_head_chars(char_matcher, test_string)
-    test_string.slice!(0)
+    @match += test_string.slice!(0)
 
     if char_matcher.modifier == '+'
-      test_string.slice!(0) while test_string.length > 0 && char_matcher.matches?(test_string.slice(0))
+      @match += test_string.slice!(0) while test_string.length > 0 && char_matcher.matches?(test_string.slice(0))
     end
   end
 
