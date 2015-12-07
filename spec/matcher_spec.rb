@@ -92,6 +92,10 @@ describe Matcher do
         expect(matcher.match('a')).to eq('a')
       end
 
+      it 'matches "aaa"' do
+        expect(matcher.match('aaa')).to eq('aaa')
+      end
+
       it 'does not match "b"' do
         expect(matcher.match('b')).to be nil
       end
