@@ -1,8 +1,11 @@
 require './lib/matcher'
 
 class Regex
-  def initialize(pattern_string)
+  attr_reader :modifier
+
+  def initialize(pattern_string, modifier = nil)
     @pattern_string = pattern_string.dup
+    @modifier = modifier
     @match = ''
   end
 
@@ -16,7 +19,10 @@ class Regex
 
   def match!(test_string)
     @match = ''
-    if char_matchers.all? { |char_matcher| match_chars(char_matcher, test_string) }
+    if char_matchers.all? do |char_matcher|
+        match_chars(char_matcher, test_string)
+      end
+
       @match
     end
   end
@@ -24,7 +30,7 @@ class Regex
   private
 
   def match_chars(char_matcher, test_string)
-    if char_matcher.matches?(test_string.slice(0))
+    if char_matcher.matches?(test_string)
       remove_head_chars(char_matcher, test_string)
       true
     elsif char_matcher.modifier == '?'
@@ -35,11 +41,7 @@ class Regex
   end
 
   def remove_head_chars(char_matcher, test_string)
-    @match += test_string.slice!(0)
-
-    if char_matcher.modifier == '+'
-      @match += test_string.slice!(0) while test_string.length > 0 && char_matcher.matches?(test_string.slice(0))
-    end
+    @match += char_matcher.match!(test_string)
   end
 
   def char_matchers
@@ -57,13 +59,22 @@ class Regex
     while @pattern_string.length > 0
       match_char = @pattern_string.slice!(0)
 
+      match_class = Matcher
+
       if match_char == '['
         match_char = build_from_character_class
       end
 
+      if match_char == '('
+        match_char = build_from_capture_group
+        match_class = Regex
+      end
+
+      modifier = nil
+
       modifier = @pattern_string.slice!(0) if ['?', '+'].include?(@pattern_string.slice(0))
 
-      output << Matcher.new(match_char, modifier)
+      output << match_class.new(match_char, modifier)
     end
 
     output
@@ -76,5 +87,14 @@ class Regex
     @pattern_string.slice!(0)
 
     chars
+  end
+
+  def build_from_capture_group
+    chars = []
+    chars << @pattern_string.slice!(0) while @pattern_string.length > 0 && @pattern_string.slice(0) != ')'
+
+    @pattern_string.slice!(0)
+
+    "/#{chars.join}/"
   end
 end

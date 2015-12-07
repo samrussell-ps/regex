@@ -196,5 +196,29 @@ describe Regex do
         expect(Regex.new(pattern_string).match('bar')).to be nil
       end
     end
+
+    context 'pattern_string /(foo)/' do
+      let(:pattern_string) { '/(foo)/' }
+
+      it 'matches foo' do
+        expect(Regex.new(pattern_string).match('foo')).to eq('foo')
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).match('bar')).to be nil
+      end
+    end
+
+    context 'pattern_string /b[aeiou]t?(fo+)d/' do
+      let(:pattern_string) { '/b[aeiou]t?(fo+)d/' }
+
+      it 'matches batfood' do
+        expect(Regex.new(pattern_string).match('batfood')).to eq('batfood')
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).match('bar')).to be nil
+      end
+    end
   end
 end

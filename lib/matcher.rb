@@ -27,8 +27,15 @@ class Matcher
 
     output = ''
 
-    output += char.slice!(0) while char.length > 0 && @match_char.include?(char[0])
+    output += char.slice!(0) while continue_greedy_match(char)
 
     output
+  end
+
+  def continue_greedy_match(char)
+    return false if char.length == 0
+    return true if @match_char == '.'
+
+    @match_char.include?(char[0])
   end
 end
