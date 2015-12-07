@@ -3,18 +3,15 @@ require './lib/regex'
 
 describe Regex do
   describe '#matches?' do
-    let(:string1) { 'foo' }
-    let(:string2) { 'bar' }
-
     context 'pattern_string /foo/' do
       let(:pattern_string) { '/foo/' }
 
       it 'matches foo' do
-        expect(Regex.new(pattern_string).matches?(string1)).to be true
+        expect(Regex.new(pattern_string).matches?('foo')).to be true
       end
 
       it 'does not match bar' do
-        expect(Regex.new(pattern_string).matches?(string2)).to be false
+        expect(Regex.new(pattern_string).matches?('bar')).to be false
       end
     end
 
@@ -22,11 +19,35 @@ describe Regex do
       let(:pattern_string) { '/fo./' }
 
       it 'matches foo' do
-        expect(Regex.new(pattern_string).matches?(string1)).to be true
+        expect(Regex.new(pattern_string).matches?('foo')).to be true
       end
 
       it 'does not match bar' do
-        expect(Regex.new(pattern_string).matches?(string2)).to be false
+        expect(Regex.new(pattern_string).matches?('bar')).to be false
+      end
+    end
+
+    context 'pattern_string /fo+/' do
+      let(:pattern_string) { '/fo+/' }
+
+      it 'matches foo' do
+        expect(Regex.new(pattern_string).matches?('foo')).to be true
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).matches?('bar')).to be false
+      end
+    end
+
+    context 'pattern_string /fo+d/' do
+      let(:pattern_string) { '/fo+d/' }
+
+      it 'matches food' do
+        expect(Regex.new(pattern_string).matches?('food')).to be true
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).matches?('bar')).to be false
       end
     end
   end
