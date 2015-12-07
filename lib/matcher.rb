@@ -9,6 +9,6 @@ class Matcher
   def matches?(char)
     return true if @match_char == '.'
 
-    @match_char == char
+    @match_char.include?(char)
   end
 end

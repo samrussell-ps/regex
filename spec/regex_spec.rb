@@ -67,5 +67,21 @@ describe Regex do
       end
     end
 
+    context 'pattern_string /[fo]+/' do
+      let(:pattern_string) { '/[fo]+/' }
+
+      it 'matches foo' do
+        expect(Regex.new(pattern_string).matches?('foo')).to be true
+      end
+
+      it 'matches off' do
+        expect(Regex.new(pattern_string).matches?('off')).to be true
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).matches?('bar')).to be false
+      end
+    end
+
   end
 end

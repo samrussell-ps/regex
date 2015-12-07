@@ -17,8 +17,6 @@ describe Matcher do
 
     context 'with dot' do
       let(:matcher) { Matcher.new('.') }
-      let(:'a') { 'a' }
-      let(:'b') { 'b' }
 
       it 'matches "a"' do
         expect(matcher.matches?('a')).to be true
@@ -31,8 +29,6 @@ describe Matcher do
 
     context 'with plus' do
       let(:matcher) { Matcher.new('a', '+') }
-      let(:'a') { 'a' }
-      let(:'b') { 'b' }
 
       it 'matches "a"' do
         expect(matcher.matches?('a')).to be true
@@ -40,6 +36,26 @@ describe Matcher do
 
       it 'does not match "b"' do
         expect(matcher.matches?('b')).to be false
+      end
+    end
+
+    context 'with multiple characters' do
+      let(:matcher) { Matcher.new('abc') }
+
+      it 'matches "a"' do
+        expect(matcher.matches?('a')).to be true
+      end
+
+      it 'matches "b"' do
+        expect(matcher.matches?('b')).to be true
+      end
+
+      it 'matches "c"' do
+        expect(matcher.matches?('c')).to be true
+      end
+
+      it 'does not match "d"' do
+        expect(matcher.matches?('d')).to be false
       end
     end
   end
