@@ -58,13 +58,16 @@ class Regex
 
       match_class = Matcher
 
-      if match_char == '['
+      case match_char
+      when '['
         match_char = build_from_character_class
-      end
-
-      if match_char == '('
+      when '('
         match_char = build_from_capture_group
         match_class = Regex
+      when '.'
+        match_char = :dot
+      when '\\'
+        match_char = @pattern_string.slice!(0)
       end
 
       modifier = try_to_pop_modifier

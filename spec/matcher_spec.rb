@@ -16,7 +16,7 @@ describe Matcher do
     end
 
     context 'with dot' do
-      let(:matcher) { Matcher.new('.') }
+      let(:matcher) { Matcher.new(:dot) }
 
       it 'matches "a"' do
         expect(matcher.matches?('a')).to be true
@@ -74,7 +74,7 @@ describe Matcher do
     end
 
     context 'with dot' do
-      let(:matcher) { Matcher.new('.') }
+      let(:matcher) { Matcher.new(:dot) }
 
       it 'matches "a"' do
         expect(matcher.match('a')).to eq('a')

@@ -220,5 +220,17 @@ describe Regex do
         expect(Regex.new(pattern_string).match('bar')).to be nil
       end
     end
+
+    context 'pattern_string /b\[ae[iou]t?(fo+)d/' do
+      let(:pattern_string) { '/b\[ae[iou]t?(fo+)d/' }
+
+      it 'matches batfood' do
+        expect(Regex.new(pattern_string).match('b[aeotfood')).to eq('b[aeotfood')
+      end
+
+      it 'does not match bar' do
+        expect(Regex.new(pattern_string).match('bar')).to be nil
+      end
+    end
   end
 end

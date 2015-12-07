@@ -7,7 +7,7 @@ class Matcher
   end
 
   def matches?(char)
-    return true if @match_char == '.'
+    return true if @match_char == :dot
 
     @match_char.include?(char[0])
   end
@@ -17,7 +17,7 @@ class Matcher
   end
 
   def match!(char)
-    if @match_char == '.' || @match_char.include?(char[0])
+    if @match_char == :dot || @match_char.include?(char[0])
       try_greedy_match(char)
     end
   end
@@ -34,7 +34,7 @@ class Matcher
 
   def continue_greedy_match(char)
     return false if char.length == 0
-    return true if @match_char == '.'
+    return true if @match_char == :dot
 
     @match_char.include?(char[0])
   end
