@@ -51,7 +51,7 @@ class Regex
   def build_char_matchers
     output = []
 
-    return nil unless try_to_remove_slashes
+    remove_slashes
 
     while @pattern_string.length > 0
       match_char = @pattern_string.slice!(0)
@@ -79,13 +79,9 @@ class Regex
     @pattern_string.slice!(0) if ['?', '+'].include?(@pattern_string.slice(0))
   end
 
-  def try_to_remove_slashes
+  def remove_slashes
     if @pattern_string.length >= 2 && @pattern_string.slice(0) == '/' && @pattern_string.slice(-1) == '/'
       @pattern_string = @pattern_string.slice(1...-1)
-
-      true
-    else
-      false
     end
   end
 
